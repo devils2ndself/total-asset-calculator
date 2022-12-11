@@ -26,8 +26,9 @@
 
     <Spinner
         android:id="@+id/add_asset_type"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="20sp"
         android:contentDescription="@string/asset_type"
         android:minHeight="48dp"
@@ -37,8 +38,9 @@
 
     <EditText
         android:id="@+id/add_asset_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="20sp"
         android:ems="10"
         android:inputType="none"
@@ -51,8 +53,9 @@
 
     <EditText
         android:id="@+id/add_asset_quantity"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="20sp"
         android:ems="10"
         android:inputType="none"

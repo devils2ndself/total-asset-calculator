@@ -91,5 +91,14 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
     }
 
     @Override
+    public void onGetById(Asset asset) { }
+
+    @Override
     public void onInsert() { }
+
+    @Override
+    public void onUpdate() { }
+
+    @Override
+    public void onDelete() { }
 }

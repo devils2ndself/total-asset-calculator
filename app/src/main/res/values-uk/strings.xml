@@ -16,4 +16,7 @@
     <string name="name_empty_error">Тикер/Назва відсутня!</string>
     <string name="invalid_type_error">Невірний тип активу!</string>
     <string name="quantity_empty_error">Кількість відсутня!</string>
+    <string name="delete">Delete</string>
+    <string name="last_updated_price">Last updated price</string>
+    <string name="update">Update</string>
 </resources>

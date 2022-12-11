@@ -15,4 +15,7 @@
     <string name="name_empty_error">Name cannot be empty!</string>
     <string name="invalid_type_error">Invalid type!</string>
     <string name="quantity_empty_error">Quantity cannot be empty!</string>
+    <string name="delete">Delete</string>
+    <string name="last_updated_price">Last updated price</string>
+    <string name="update">Update</string>
 </resources>

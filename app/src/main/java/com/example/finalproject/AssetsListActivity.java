@@ -61,7 +61,9 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
         stocksAdapter = new StocksCryptoRecyclerAdapter(this, stockAssets, new StocksCryptoRecyclerAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(AssetsListActivity.this, stocksAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
+                Intent detailsIntent = new Intent(AssetsListActivity.this, AssetDetailsActivity.class);
+                detailsIntent.putExtra("id", stocksAdapter.getItem(position).id);
+                startActivity(detailsIntent);
             }
         });
         RecyclerView stocksRecycler = findViewById(R.id.stocks_recycler);
@@ -74,7 +76,9 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
         cryptoAdapter = new StocksCryptoRecyclerAdapter(this, cryptoAssets, new StocksCryptoRecyclerAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(AssetsListActivity.this, cryptoAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
+                Intent detailsIntent = new Intent(AssetsListActivity.this, AssetDetailsActivity.class);
+                detailsIntent.putExtra("id", cryptoAdapter.getItem(position).id);
+                startActivity(detailsIntent);
             }
         });
         RecyclerView cryptoRecycler = findViewById(R.id.crypto_recycler);
@@ -85,5 +89,14 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
     }
 
     @Override
+    public void onGetById(Asset asset) { }
+
+    @Override
     public void onInsert() { }
+
+    @Override
+    public void onUpdate() { }
+
+    @Override
+    public void onDelete() { }
 }

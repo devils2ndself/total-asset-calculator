@@ -49,13 +49,17 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
         addButton.setOnClickListener(view -> {
             try {
                 addButton.setEnabled(false);
+
                 String type = spinner.getSelectedItem().toString();
                 if (! spinnerArray.contains(type)) { throw new Exception(getString(R.string.invalid_type_error)); }
+
                 String name = nameText.getText().toString().trim();
                 if (name.isEmpty()) { throw new Exception(getString(R.string.name_empty_error)); }
+
                 String quantityString = quantityText.getText().toString();
                 if (quantityString.isEmpty()) { throw new Exception(getString(R.string.quantity_empty_error)); }
                 double quantity = Double.parseDouble(quantityString);
+
                 Asset newAsset = new Asset(type, name, quantity);
                 dbManager.insertAssetAsync(newAsset);
             } catch (Exception e) {
@@ -69,7 +73,16 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
     public void onGetAll(List<Asset> assets) { }
 
     @Override
+    public void onGetById(Asset asset) { }
+
+    @Override
     public void onInsert() {
         startActivity(new Intent(this, AssetsListActivity.class));
     }
+
+    @Override
+    public void onUpdate() { }
+
+    @Override
+    public void onDelete() { }
 }

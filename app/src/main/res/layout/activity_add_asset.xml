@@ -7,7 +7,7 @@
     tools:context=".AddAssetActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/add_asset_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_new_asset"
@@ -43,9 +43,10 @@
         app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="20sp"
         android:ems="10"
-        android:inputType="none"
+        android:inputType="text"
         android:minHeight="48dp"
         android:text=""
+        android:hint="@string/ticker_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_asset_type"
@@ -58,16 +59,17 @@
         app:layout_constraintWidth_percent="0.8"
         android:layout_marginTop="20sp"
         android:ems="10"
-        android:inputType="none"
+        android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:text=""
+        android:hint="@string/quantity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_asset_name"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_asset_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add"

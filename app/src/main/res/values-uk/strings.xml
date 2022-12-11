@@ -10,4 +10,10 @@
     <string name="crypto">Криптовалюти</string>
     <string name="other_not_fetched">Інші</string>
     <string name="view_all_assets">Переглянути всі активи</string>
+    <string name="news">Новини</string>
+    <string name="ticker_name">Біржовий тикер/Назва</string>
+    <string name="quantity">Кількість</string>
+    <string name="name_empty_error">Тикер/Назва відсутня!</string>
+    <string name="invalid_type_error">Невірний тип активу!</string>
+    <string name="quantity_empty_error">Кількість відсутня!</string>
 </resources>

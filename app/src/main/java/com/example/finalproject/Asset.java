@@ -1,7 +1,10 @@
 package com.example.finalproject;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+@Entity
 public class Asset {
 
     public Asset(String type, String name, double quantity) {
@@ -20,7 +23,7 @@ public class Asset {
 
     public String name;
 
-    // @Ignore
+    @Ignore
     public double unitPrice;
 
     public void setUnitPrice(double price) {

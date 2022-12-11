@@ -9,23 +9,38 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener {
+
+    TextView totalTextView;
 
     Button addButton;
     Button viewButton;
+
+    DatabaseManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (App.assets.size() == 0) {
-            App.assets.add(new Asset("Stock", "VOO", 12));
-            App.assets.add(new Asset("Stock", "VTI", 7));
-            App.assets.add(new Asset("Stock", "KO", 5));
-            App.assets.add(new Asset("Crypto", "BTC", 2.5));
-        }
+        totalTextView = findViewById(R.id.main_total_number);
+
+        dbManager = ((App) getApplication()).dbManager;
+        DatabaseManager.getDb(this);
+        dbManager.listener = this;
+        dbManager.getAllAssetsAsync();
+
+//        if (App.assets.size() == 0) {
+//            App.assets.add(new Asset("Stock", "VOO", 12));
+//            App.assets.add(new Asset("Stock", "VTI", 7));
+//            App.assets.add(new Asset("Stock", "KO", 5));
+//            App.assets.add(new Asset("Crypto", "BTC", 2.5));
+//        }
 
         addButton = findViewById(R.id.main_add_button);
         viewButton = findViewById(R.id.main_view_button);
@@ -64,4 +79,17 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @SuppressLint("DefaultLocale")
+    @Override
+    public void onGetAll(List<Asset> assets) {
+        double total = 0;
+        for (Asset asset : assets) {
+            total += asset.getTotal();
+        }
+        totalTextView.setText(String.format("%.2f", total));
+    }
+
+    @Override
+    public void onInsert() { }
 }

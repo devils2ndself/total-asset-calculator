@@ -9,4 +9,10 @@
     <string name="crypto">Crypto</string>
     <string name="other_not_fetched">Other</string>
     <string name="view_all_assets">View all assets</string>
+    <string name="news">News</string>
+    <string name="ticker_name">Ticker/Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="name_empty_error">Name cannot be empty!</string>
+    <string name="invalid_type_error">Invalid type!</string>
+    <string name="quantity_empty_error">Quantity cannot be empty!</string>
 </resources>

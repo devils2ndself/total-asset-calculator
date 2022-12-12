@@ -15,12 +15,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssetsListActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener {
+public class AssetsListActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener, NetworkManager.NetworkListener {
 
     StocksCryptoRecyclerAdapter stocksAdapter;
     StocksCryptoRecyclerAdapter cryptoAdapter;
 
     DatabaseManager dbManager;
+    NetworkManager apiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,9 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
         DatabaseManager.getDb(this);
         dbManager.listener = this;
         dbManager.getAllAssetsAsync();
+
+        apiManager = ((App) getApplication()).apiManager;
+        apiManager.listener = this;
     }
 
     // Menu
@@ -55,6 +59,11 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
 
     @Override
     public void onGetAll(List<Asset> assets) {
+        apiManager.getAllStocksPrices((ArrayList<Asset>) assets);
+    }
+
+    @Override
+    public void onAllAssetsPrices(ArrayList<Asset> assets) {
         // Stocks
         ArrayList<Asset> stockAssets = new ArrayList<>(assets);
         stockAssets.removeIf(asset -> !asset.type.equals("Stock"));
@@ -99,4 +108,10 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
 
     @Override
     public void onDelete() { }
+
+    @Override
+    public void onApiGet(String json) { }
+
+    @Override
+    public void onApiError() { }
 }

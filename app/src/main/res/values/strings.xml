@@ -18,4 +18,6 @@
     <string name="delete">Delete</string>
     <string name="last_updated_price">Last updated price</string>
     <string name="update">Update</string>
+    <string name="add_stock_price_error">Failed to fetch stock price for given ticker!</string>
+    <string name="add_crypto_price_error">Failed to fetch crypto price for given ticker!</string>
 </resources>

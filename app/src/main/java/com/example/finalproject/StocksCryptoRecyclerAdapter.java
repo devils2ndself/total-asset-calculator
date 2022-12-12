@@ -38,11 +38,12 @@ public class StocksCryptoRecyclerAdapter extends RecyclerView.Adapter<StocksCryp
         return new ViewHolder(view);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ticker.setText(assets.get(position).name);
         holder.quantity.setText(String.valueOf(assets.get(position).quantity));
-        String total = context.getResources().getString(R.string.dollar_sign) + String.valueOf(assets.get(position).getTotal());
+        String total = context.getResources().getString(R.string.dollar_sign) + String.format("%.4f", assets.get(position).getTotal());
         holder.total.setText(total);
     }
 

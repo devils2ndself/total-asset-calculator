@@ -17,9 +17,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddAssetActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener {
+public class AddAssetActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener, NetworkManager.NetworkListener {
 
     DatabaseManager dbManager;
+    NetworkManager apiManager;
+    Asset newAsset;
+    Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,9 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
         dbManager = ((App) getApplication()).dbManager;
         DatabaseManager.getDb(this);
         dbManager.listener = this;
+
+        apiManager = ((App) getApplication()).apiManager;
+        apiManager.listener = this;
 
         // Type spinner
         List<String> spinnerArray =  new ArrayList<String>();
@@ -43,7 +49,7 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
         spinner.setAdapter(adapter);
 
         // Add button
-        Button addButton = (Button) findViewById(R.id.add_asset_button);
+        addButton = (Button) findViewById(R.id.add_asset_button);
         EditText nameText = (EditText) findViewById(R.id.add_asset_name);
         EditText quantityText = (EditText) findViewById(R.id.add_asset_quantity);
         addButton.setOnClickListener(view -> {
@@ -60,11 +66,19 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
                 if (quantityString.isEmpty()) { throw new Exception(getString(R.string.quantity_empty_error)); }
                 double quantity = Double.parseDouble(quantityString);
 
-                Asset newAsset = new Asset(type, name, quantity);
-                dbManager.insertAssetAsync(newAsset);
+                newAsset = new Asset(type, name, quantity);
+                switch (type) {
+                    case "Stock":
+                        apiManager.getStockPrice(name);
+                        break;
+                    case "Crypto":
+                        apiManager.getCryptoPrice(name);
+                        break;
+                    default:
+                        break;
+                }
             } catch (Exception e) {
-                addButton.setEnabled(true);
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                showError(e.getMessage());
             }
         });
     }
@@ -85,4 +99,42 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
 
     @Override
     public void onDelete() { }
+
+    @Override
+    public void onApiGet(String json) {
+        double price;
+        boolean ok = true;
+        switch (newAsset.type) {
+            case "Stock":
+                price = JsonManager.getPriceForStock(json);
+                if (price <= 0) {
+                    ok = false;
+                    showError(getString(R.string.add_stock_price_error));
+                }
+                break;
+            case "Crypto":
+                price = JsonManager.getPriceForCrypto(json);
+                if (price <= 0) {
+                    ok = false;
+                    showError(getString(R.string.add_crypto_price_error));
+                }
+                break;
+            default:
+                break;
+        }
+        if (ok) dbManager.insertAssetAsync(newAsset);
+    }
+
+    void showError(String error) {
+        addButton.setEnabled(true);
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onApiError() {
+        showError(getString(R.string.add_crypto_price_error));
+    }
+
+    @Override
+    public void onAllAssetsPrices(ArrayList<Asset> assets) { }
 }

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener {
+public class MainActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener, NetworkManager.NetworkListener {
 
     TextView totalTextView;
 
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
     Button viewButton;
 
     DatabaseManager dbManager;
+    NetworkManager apiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,8 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
         dbManager.listener = this;
         dbManager.getAllAssetsAsync();
 
-//        if (App.assets.size() == 0) {
-//            App.assets.add(new Asset("Stock", "VOO", 12));
-//            App.assets.add(new Asset("Stock", "VTI", 7));
-//            App.assets.add(new Asset("Stock", "KO", 5));
-//            App.assets.add(new Asset("Crypto", "BTC", 2.5));
-//        }
+        apiManager = ((App) getApplication()).apiManager;
+        apiManager.listener = this;
 
         addButton = findViewById(R.id.main_add_button);
         viewButton = findViewById(R.id.main_view_button);
@@ -80,14 +77,9 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
         }
     }
 
-    @SuppressLint("DefaultLocale")
     @Override
     public void onGetAll(List<Asset> assets) {
-        double total = 0;
-        for (Asset asset : assets) {
-            total += asset.getTotal();
-        }
-        totalTextView.setText(String.format("%.2f", total));
+        apiManager.getAllStocksPrices((ArrayList<Asset>) assets);
     }
 
     @Override
@@ -101,4 +93,20 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
 
     @Override
     public void onDelete() { }
+
+    @Override
+    public void onApiGet(String json) { }
+
+    @Override
+    public void onApiError() { }
+
+    @SuppressLint("DefaultLocale")
+    @Override
+    public void onAllAssetsPrices(ArrayList<Asset> assets) {
+        double total = 0;
+        for (Asset asset : assets) {
+            total += asset.getTotal();
+        }
+        totalTextView.setText(String.format("%.2f", total));
+    }
 }

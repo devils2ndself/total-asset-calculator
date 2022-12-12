@@ -88,20 +88,21 @@
         android:layout_height="wrap_content"
         android:text="@string/dollar_sign"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/price_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/price_label" />
+        android:layout_marginEnd="5sp"
+        app:layout_constraintBottom_toBottomOf="@+id/asset_details_price"
+        app:layout_constraintEnd_toStartOf="@+id/asset_details_price"
+        app:layout_constraintTop_toTopOf="@+id/asset_details_price" />
 
     <TextView
         android:id="@+id/asset_details_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1sp"
         android:text="..."
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/price_dollar_sign"
-        app:layout_constraintTop_toTopOf="@+id/price_dollar_sign" />
+        android:layout_marginEnd="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/price_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/price_label" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"

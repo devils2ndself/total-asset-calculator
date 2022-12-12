@@ -16,7 +16,9 @@
     <string name="name_empty_error">Тикер/Назва відсутня!</string>
     <string name="invalid_type_error">Невірний тип активу!</string>
     <string name="quantity_empty_error">Кількість відсутня!</string>
-    <string name="delete">Delete</string>
-    <string name="last_updated_price">Last updated price</string>
-    <string name="update">Update</string>
+    <string name="delete">Видалити</string>
+    <string name="last_updated_price">Остання оновлена ціна</string>
+    <string name="update">Змінити</string>
+    <string name="add_stock_price_error">Не вдалось знайти ціну вказаної акції!</string>
+    <string name="add_crypto_price_error">Не вдалось знайти ціну вказаної криптовалюти!</string>
 </resources>

@@ -10,11 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AssetDetailsActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener {
+public class AssetDetailsActivity extends AppCompatActivity implements DatabaseManager.DatabaseListener, NetworkManager.NetworkListener {
 
     DatabaseManager dbManager;
+    NetworkManager apiManager;
+
+    Asset asset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +31,27 @@ public class AssetDetailsActivity extends AppCompatActivity implements DatabaseM
         DatabaseManager.getDb(this);
         dbManager.listener = this;
         dbManager.getAssetByIdAsync(extras.getInt("id"));
+
+        apiManager = ((App) getApplication()).apiManager;
+        apiManager.listener = this;
     }
 
     @SuppressLint("DefaultLocale")
     @Override
-    public void onGetById(Asset asset) {
+    public void onGetById(Asset a) {
+        asset = a;
+
+        switch (asset.type) {
+            case "Stock":
+                apiManager.getStockPrice(asset.name);
+                break;
+            case "Crypto":
+                apiManager.getCryptoPrice(asset.name);
+                break;
+            default:
+                break;
+        }
+
         TextView nameTextview = findViewById(R.id.asset_details_name);
         nameTextview.setText(asset.name);
 
@@ -40,9 +60,6 @@ public class AssetDetailsActivity extends AppCompatActivity implements DatabaseM
 
         EditText quantityEdittext = (EditText) findViewById(R.id.asset_details_quantity_edit);
         quantityEdittext.setText(String.valueOf(asset.quantity));
-
-        TextView priceTextview = findViewById(R.id.asset_details_price);
-        priceTextview.setText(String.format("%.2f", asset.unitPrice));
 
         Button deleteButton = (Button) findViewById(R.id.asset_details_delete_button);
         deleteButton.setOnClickListener(view -> {
@@ -88,4 +105,36 @@ public class AssetDetailsActivity extends AppCompatActivity implements DatabaseM
 
     @Override
     public void onInsert() { }
+
+    // Network
+
+    @Override
+    public void onApiGet(String json) {
+        double price = 0;
+        switch (asset.type) {
+            case "Stock":
+                price = JsonManager.getPriceForStock(json);
+                break;
+            case "Crypto":
+                price = JsonManager.getPriceForCrypto(json);
+                break;
+            default:
+                break;
+        }
+        UpdatePrice(price);
+    }
+
+    @Override
+    public void onApiError() {
+        UpdatePrice(0);
+    }
+
+    @Override
+    public void onAllAssetsPrices(ArrayList<Asset> assets) { }
+
+    @SuppressLint("DefaultLocale")
+    void UpdatePrice(double price) {
+        TextView priceTextview = findViewById(R.id.asset_details_price);
+        priceTextview.setText(String.format("%.2f", price));
+    }
 }

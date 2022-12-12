@@ -26,7 +26,7 @@ public class NetworkManager {
     }
 
     String newsApiUrl = "https://api.marketaux.com/v1/news/all?language=en&api_token=X4RVFv12cxFnq6YevaFPsALrUHl3SpsEc1gywBdD";
-    String stocksApiUrl = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&apikey=ZGGK3B2LI8HZ6SF2&symbol="; //05IFSASDEYQ0R0YM
+    String stocksApiUrl = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&apikey=05IFSASDEYQ0R0YM&symbol=";
     String cryptoApiUrl = "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=";
 
     ExecutorService apiExecutor = Executors.newFixedThreadPool(4);

@@ -1,13 +1,18 @@
 package com.example.finalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
 
         apiManager = ((App) getApplication()).apiManager;
         apiManager.listener = this;
+        apiManager.getNews();
 
         addButton = findViewById(R.id.main_add_button);
         viewButton = findViewById(R.id.main_view_button);
@@ -95,7 +101,19 @@ public class MainActivity extends AppCompatActivity implements DatabaseManager.D
     public void onDelete() { }
 
     @Override
-    public void onApiGet(String json) { }
+    public void onApiGet(String json) {
+        ArrayList<NewsArticle> news = JsonManager.getNewsArticles(json);
+        NewsRecyclerAdapter newsAdapter = new NewsRecyclerAdapter(this, news, new NewsRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.get(position).url));
+                startActivity(browserIntent);
+            }
+        });
+        RecyclerView newsRecycler = findViewById(R.id.news_recycler);
+        newsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        newsRecycler.setAdapter(newsAdapter);
+    }
 
     @Override
     public void onApiError() { }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +42,8 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
         List<String> spinnerArray =  new ArrayList<String>();
         spinnerArray.add("Stock");
         spinnerArray.add("Crypto");
+        spinnerArray.add("Cash");
+        spinnerArray.add("Bank money");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -75,6 +78,7 @@ public class AddAssetActivity extends AppCompatActivity implements DatabaseManag
                         apiManager.getCryptoPrice(name);
                         break;
                     default:
+                        dbManager.insertAssetAsync(newAsset);
                         break;
                 }
             } catch (Exception e) {

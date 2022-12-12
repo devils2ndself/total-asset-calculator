@@ -1,9 +1,12 @@
 package com.example.finalproject;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -22,7 +25,8 @@ public class NetworkManager {
         void onAllAssetsPrices(ArrayList<Asset> assets);
     }
 
-    String stocksApiUrl = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&apikey=ZGGK3B2LI8HZ6SF2&symbol=";
+    String newsApiUrl = "https://api.marketaux.com/v1/news/all?language=en&api_token=X4RVFv12cxFnq6YevaFPsALrUHl3SpsEc1gywBdD";
+    String stocksApiUrl = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&apikey=ZGGK3B2LI8HZ6SF2&symbol="; //05IFSASDEYQ0R0YM
     String cryptoApiUrl = "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=";
 
     ExecutorService apiExecutor = Executors.newFixedThreadPool(4);
@@ -67,6 +71,10 @@ public class NetworkManager {
     public void getCryptoPrice(String ticker) {
         String url = cryptoApiUrl + ticker + "-USDT";
         connect(url);
+    }
+
+    public void getNews() {
+        connect(newsApiUrl);
     }
 
     private void connect(String urlString) {

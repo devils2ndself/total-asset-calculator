@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +50,7 @@ public class AssetDetailsActivity extends AppCompatActivity implements DatabaseM
                 apiManager.getCryptoPrice(asset.name);
                 break;
             default:
+                UpdatePrice(asset.unitPrice);
                 break;
         }
 

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
 
     StocksCryptoRecyclerAdapter stocksAdapter;
     StocksCryptoRecyclerAdapter cryptoAdapter;
+    OtherRecyclerAdapter otherAdapter;
 
     DatabaseManager dbManager;
     NetworkManager apiManager;
@@ -95,6 +97,19 @@ public class AssetsListActivity extends AppCompatActivity implements DatabaseMan
         cryptoRecycler.setAdapter(cryptoAdapter);
 
         // Other?
+        ArrayList<Asset> otherAssets = new ArrayList<>(assets);
+        otherAssets.removeIf(asset -> asset.type.equals("Crypto") || asset.type.equals("Stock"));
+        otherAdapter = new OtherRecyclerAdapter(this, otherAssets, new OtherRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent detailsIntent = new Intent(AssetsListActivity.this, AssetDetailsActivity.class);
+                detailsIntent.putExtra("id", otherAdapter.getItem(position).id);
+                startActivity(detailsIntent);
+            }
+        });
+        RecyclerView otherRecycler = findViewById(R.id.other_recycler);
+        otherRecycler.setLayoutManager(new LinearLayoutManager(this));
+        otherRecycler.setAdapter(otherAdapter);
     }
 
     @Override
